@@ -34,7 +34,7 @@
   "homepage": "https://voltanotes.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/unpromptedlabs/volta-mcp-server"
+    "url": "https://github.com/iamredmh/volta-mcp-server"
   },
   "dependencies": {
     "@dfinity/agent": "^2.3.1",
