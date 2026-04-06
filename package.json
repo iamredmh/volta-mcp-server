@@ -1,0 +1,52 @@
+{
+  "name": "@voltanotes/mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Volta Notes — create and read burn-after-read encrypted notes on the Internet Computer",
+  "type": "module",
+  "bin": {
+    "volta-mcp": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "files": [
+    "dist",
+    "idl",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "volta",
+    "voltanotes",
+    "burn-after-read",
+    "encrypted-notes",
+    "icp",
+    "internet-computer",
+    "e2e-encryption",
+    "security"
+  ],
+  "author": "Unprompted Labs",
+  "license": "MIT",
+  "homepage": "https://voltanotes.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unpromptedlabs/volta-mcp-server"
+  },
+  "dependencies": {
+    "@dfinity/agent": "^2.3.1",
+    "@dfinity/candid": "^2.3.1",
+    "@dfinity/principal": "^2.3.1",
+    "@modelcontextprotocol/sdk": "^1.12.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
