@@ -18,38 +18,27 @@ Or in reverse — an agent can use `create_volta_note` to send credentials to a 
 
 ## Quick Start
 
-### Install
+### Claude Code (CLI & Desktop App)
+
+**Step 1 — Install globally:**
 
 ```bash
 npm install -g @voltanotes/mcp
 ```
 
-### Claude Code
-
-Find where the package was installed:
+**Step 2 — Register the server:**
 
 ```bash
-npm root -g
+claude mcp add -s user volta -- node $(npm root -g)/@voltanotes/mcp/dist/index.js
 ```
 
-Then add to your MCP config (`~/.claude/mcp.json`):
+That's it. Restart Claude Code and the `create_volta_note` and `read_volta_note` tools will be available.
 
-```json
-{
-  "mcpServers": {
-    "volta": {
-      "command": "node",
-      "args": ["<npm-global-root>/@voltanotes/mcp/dist/index.js"]
-    }
-  }
-}
-```
+> **Why `claude mcp add` instead of editing config files?** Claude Code reads MCP servers from its own registry, not from `~/.claude/mcp.json`. Using the CLI ensures the server is registered correctly. The `-s user` flag makes it available across all projects.
 
-Replace `<npm-global-root>` with the output of `npm root -g` (e.g. `/usr/local/lib/node_modules` or `~/.npm-global/lib/node_modules`).
+> **`node` not found?** Use the full path: replace `node` with the output of `which node` (e.g. `/usr/local/bin/node`).
 
-If `node` isn't found, use the full path (run `which node` to find it).
-
-### Claude Desktop
+### Claude Desktop (Standalone)
 
 Add to your `claude_desktop_config.json`:
 
@@ -63,8 +52,6 @@ Add to your `claude_desktop_config.json`:
   }
 }
 ```
-
-> **Note:** The `npx` method works well for Claude Desktop, which has full PATH access. For Claude Code, use the global install method above — see [Troubleshooting](#troubleshooting) for details.
 
 ## Tools
 
@@ -124,68 +111,28 @@ User opens URL → read gate → clicks "Read note"
 
 ## Troubleshooting
 
-### Server not connecting in Claude Code
-
-Claude Code's shell often runs with a minimal `PATH` (e.g. `/usr/bin:/bin:/usr/sbin:/sbin`) that doesn't include the directory where `npx` is installed. The server silently fails to start — no error is shown.
-
-**Fix — use the full path to npx and set the PATH environment variable:**
-
-Find your npx location:
+### Check if the server is connected
 
 ```bash
-which npx
+claude mcp list
 ```
 
-Then update your MCP config (`~/.claude/mcp.json`) to use the full path **and** provide the PATH so child processes (like `node`) can also be found:
+You should see `volta: ... ✓ Connected`. If not, see below.
 
-```json
-{
-  "mcpServers": {
-    "volta": {
-      "command": "/usr/local/bin/npx",
-      "args": ["-y", "@voltanotes/mcp"],
-      "env": {
-        "PATH": "/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-      }
-    }
-  }
-}
-```
+### Server not showing up
 
-Replace `/usr/local/bin` with the directory from `which npx`. The `env.PATH` is required because `npx` spawns `node` as a child process, which also needs to be discoverable.
+1. **Did you use `claude mcp add`?** Editing `~/.claude/mcp.json` manually won't work — Claude Code reads servers from its own registry. Always use `claude mcp add` to register servers.
 
-Alternatively, if you installed the package globally (`npm install -g @voltanotes/mcp`), you can reference the binary directly:
+2. **Is `node` on your PATH?** Claude Code's shell has a minimal PATH. If `node` isn't found, use the full path:
+   ```bash
+   claude mcp add -s user volta -- $(which node) $(npm root -g)/@voltanotes/mcp/dist/index.js
+   ```
 
-```json
-{
-  "mcpServers": {
-    "volta": {
-      "command": "/usr/local/bin/volta-mcp",
-      "env": {
-        "PATH": "/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-      }
-    }
-  }
-}
-```
-
-After updating the config, restart Claude Code to pick up the change.
-
-### Server configured but still not connecting
-
-Claude Code loads MCP configs from multiple levels — **global** (`~/.claude/mcp.json`) and **project-level** (`.claude/mcp.json` in the project directory or any parent directory). If you added Volta to your global config but have a project-level config, the server may not load for that project.
-
-Check for project-level configs:
-
-```bash
-find ~/your-project-root -maxdepth 3 -path "*/.claude/mcp.json"
-```
-
-If a project-level config exists, add the Volta server entry there too.
+3. **Restart required.** After adding or changing an MCP server, fully restart Claude Code (quit and reopen).
 
 ### How do I know if the server started?
 
-The server logs `Volta MCP server started` to stderr on successful startup. If you don't see this in your MCP server logs, the server isn't running.
+The server logs `Volta MCP server started` to stderr on successful startup. Run `claude mcp list` to check connection status.
 
 ## Requirements
 
