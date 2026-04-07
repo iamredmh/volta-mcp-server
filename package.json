@@ -1,6 +1,6 @@
 {
   "name": "@voltanotes/mcp",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "MCP server for Volta Notes — create and read burn-after-read encrypted notes on the Internet Computer",
   "type": "module",
   "bin": {
@@ -40,7 +40,7 @@
     "@dfinity/agent": "^2.3.1",
     "@dfinity/candid": "^2.3.1",
     "@dfinity/principal": "^2.3.1",
-    "@modelcontextprotocol/sdk": "^1.12.1"
+    "@modelcontextprotocol/sdk": "~1.29.0"
   },
   "devDependencies": {
     "typescript": "^5.7.0",

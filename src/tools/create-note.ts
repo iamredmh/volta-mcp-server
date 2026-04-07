@@ -41,7 +41,7 @@ export async function execute(args: {
     const url = `${APP_URL}/r/${noteId}#${keyStr}`;
     return { url };
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return { error: `Failed to store note on canister. ${message}` };
+    console.error("create_volta_note error:", err);
+    return { error: "Failed to store note. Please try again." };
   }
 }

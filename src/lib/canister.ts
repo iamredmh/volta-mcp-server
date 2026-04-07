@@ -49,6 +49,6 @@ export async function getAndBurnNote(
   const actor = await getActor();
   const result = (await actor.getAndBurnNote(noteId)) as Array<Uint8Array>;
   return result.length > 0
-    ? new Uint8Array(Object.values(result[0]))
+    ? new Uint8Array(result[0])
     : null;
 }
