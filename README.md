@@ -56,6 +56,20 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
+### Other MCP-compatible clients
+
+The `npx` config above works with any client that supports the standard `command`/`args` MCP format — including **Cursor**, **Windsurf**, **Cline**, **Continue.dev**, and others. Check your client's MCP documentation for where to add server config.
+
+### Windows (Claude Code CLI)
+
+The `$(npm root -g)` syntax doesn't work in PowerShell or CMD. Use this instead:
+
+```bash
+claude mcp add -s user volta -- node "%APPDATA%\npm\node_modules\@voltanotes\mcp\dist\index.js"
+```
+
+Or use the Claude Desktop / npx method above, which works cross-platform.
+
 ## Tools
 
 ### `create_volta_note`
