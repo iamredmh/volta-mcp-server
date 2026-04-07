@@ -39,6 +39,8 @@ Add to your `claude_desktop_config.json`:
 claude mcp add volta -- npx -y @voltanotes/mcp
 ```
 
+> **PATH issue?** Claude Code runs with a minimal shell PATH that may not include the directory where `npx` is installed. If the server silently fails to connect, see [Troubleshooting](#troubleshooting) below.
+
 ## Tools
 
 ### `create_volta_note`
@@ -94,6 +96,53 @@ User opens URL → read gate → clicks "Read note"
   → Browser: decrypt using key from # fragment
   → Display plaintext — note is gone forever
 ```
+
+## Troubleshooting
+
+### Server not connecting in Claude Code
+
+Claude Code's shell often runs with a minimal `PATH` (e.g. `/usr/bin:/bin:/usr/sbin:/sbin`) that doesn't include the directory where `npx` is installed. The server silently fails to start — no error is shown.
+
+**Fix — use the full path to npx:**
+
+Find your npx location:
+
+```bash
+which npx
+```
+
+Then update your MCP config (`~/.claude/mcp.json`) to use the full path:
+
+```json
+{
+  "mcpServers": {
+    "volta": {
+      "command": "/usr/local/bin/npx",
+      "args": ["-y", "@voltanotes/mcp"]
+    }
+  }
+}
+```
+
+Replace `/usr/local/bin/npx` with whatever `which npx` returned.
+
+Alternatively, if you installed the package globally (`npm install -g @voltanotes/mcp`), you can reference the binary directly:
+
+```json
+{
+  "mcpServers": {
+    "volta": {
+      "command": "/usr/local/bin/volta-mcp"
+    }
+  }
+}
+```
+
+After updating the config, restart Claude Code to pick up the change.
+
+### How do I know if the server started?
+
+The server logs `Volta MCP server started` to stderr on successful startup. If you don't see this in your MCP server logs, the server isn't running.
 
 ## Requirements
 
