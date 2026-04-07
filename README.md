@@ -103,7 +103,7 @@ User opens URL → read gate → clicks "Read note"
 
 Claude Code's shell often runs with a minimal `PATH` (e.g. `/usr/bin:/bin:/usr/sbin:/sbin`) that doesn't include the directory where `npx` is installed. The server silently fails to start — no error is shown.
 
-**Fix — use the full path to npx:**
+**Fix — use the full path to npx and set the PATH environment variable:**
 
 Find your npx location:
 
@@ -111,20 +111,23 @@ Find your npx location:
 which npx
 ```
 
-Then update your MCP config (`~/.claude/mcp.json`) to use the full path:
+Then update your MCP config (`~/.claude/mcp.json`) to use the full path **and** provide the PATH so child processes (like `node`) can also be found:
 
 ```json
 {
   "mcpServers": {
     "volta": {
       "command": "/usr/local/bin/npx",
-      "args": ["-y", "@voltanotes/mcp"]
+      "args": ["-y", "@voltanotes/mcp"],
+      "env": {
+        "PATH": "/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
     }
   }
 }
 ```
 
-Replace `/usr/local/bin/npx` with whatever `which npx` returned.
+Replace `/usr/local/bin` with the directory from `which npx`. The `env.PATH` is required because `npx` spawns `node` as a child process, which also needs to be discoverable.
 
 Alternatively, if you installed the package globally (`npm install -g @voltanotes/mcp`), you can reference the binary directly:
 
@@ -132,7 +135,10 @@ Alternatively, if you installed the package globally (`npm install -g @voltanote
 {
   "mcpServers": {
     "volta": {
-      "command": "/usr/local/bin/volta-mcp"
+      "command": "/usr/local/bin/volta-mcp",
+      "env": {
+        "PATH": "/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
     }
   }
 }
