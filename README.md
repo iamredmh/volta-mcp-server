@@ -1,5 +1,8 @@
 # @voltanotes/mcp
 
+[![npm version](https://img.shields.io/npm/v/@voltanotes/mcp)](https://www.npmjs.com/package/@voltanotes/mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 MCP server for [Volta Notes](https://voltanotes.com) — create and read **burn-after-read** encrypted notes from any AI agent.
 
 Notes are **end-to-end encrypted** using AES-256-GCM. The decryption key lives only in the URL fragment — it is never sent to any server. Notes are stored on the [Internet Computer](https://internetcomputer.org) and permanently destroyed after a single read.

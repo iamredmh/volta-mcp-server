@@ -13,13 +13,19 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 
 import * as createNoteTool from "./tools/create-note.js";
 import * as readNoteTool from "./tools/read-note.js";
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const pkg = JSON.parse(readFileSync(join(__dirname, "..", "package.json"), "utf-8"));
+
 const server = new McpServer({
   name: "volta-notes",
-  version: "1.0.0",
+  version: pkg.version,
 });
 
 // --- create_volta_note ---------------------------------------------------
