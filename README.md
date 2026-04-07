@@ -146,6 +146,18 @@ Alternatively, if you installed the package globally (`npm install -g @voltanote
 
 After updating the config, restart Claude Code to pick up the change.
 
+### Server configured but still not connecting
+
+Claude Code loads MCP configs from multiple levels — **global** (`~/.claude/mcp.json`) and **project-level** (`.claude/mcp.json` in the project directory or any parent directory). If you added Volta to your global config but have a project-level config, the server may not load for that project.
+
+Check for project-level configs:
+
+```bash
+find ~/your-project-root -maxdepth 3 -path "*/.claude/mcp.json"
+```
+
+If a project-level config exists, add the Volta server entry there too.
+
 ### How do I know if the server started?
 
 The server logs `Volta MCP server started` to stderr on successful startup. If you don't see this in your MCP server logs, the server isn't running.
