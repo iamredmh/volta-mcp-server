@@ -70,11 +70,33 @@ claude mcp add -s user volta -- node "%APPDATA%\npm\node_modules\@voltanotes\mcp
 
 Or use the Claude Desktop / npx method above, which works cross-platform.
 
+## Workflows
+
+### Agent receiving a secret from the user
+
+Use this when you need a password, API key, or credentials from the user:
+
+1. Ask the user to go to [app.voltanotes.com](https://app.voltanotes.com), paste their secret, and copy the one-time URL
+2. User sends you the URL
+3. Call `read_volta_note` with the URL — secret is returned and note is permanently destroyed
+
+### Agent sending a secret to the user
+
+Use this when you've generated something sensitive (a password, a key, credentials) that the user needs to see:
+
+1. Call `create_volta_note` with the content
+2. Share the returned URL with the user
+3. User opens it once — content displayed, note destroyed
+
+> **Do not** call `create_volta_note` to ask the user to reply with a secret. Notes are read-only after creation — the user can't put content into a note you created. Use the first workflow above instead.
+
 ## Tools
 
 ### `create_volta_note`
 
-Creates an encrypted note and returns a one-time URL.
+Creates an encrypted note and returns a one-time URL. Use this to **send** sensitive information to a user.
+
+> **Not for receiving secrets.** To receive a secret from the user, ask them to create the note and send you the URL — then call `read_volta_note`.
 
 | Parameter | Type   | Description                          |
 |-----------|--------|--------------------------------------|
@@ -84,7 +106,7 @@ Creates an encrypted note and returns a one-time URL.
 
 ### `read_volta_note`
 
-Reads and permanently destroys a Volta note.
+Reads and permanently destroys a Volta note. Use this when a user sends you a `voltanotes.com` URL containing sensitive information.
 
 | Parameter | Type   | Description                            |
 |-----------|--------|----------------------------------------|

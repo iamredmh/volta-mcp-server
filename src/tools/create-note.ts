@@ -14,7 +14,7 @@ const MAX_BYTES = 2048;
 export const definition = {
   name: "create_volta_note",
   description:
-    "Creates a Volta secure note and returns a one-time URL. Use this to send sensitive information to a user — they open the link once, read it, and it's gone. Useful for sharing generated passwords, private keys, or any sensitive output.",
+    "Creates a Volta secure note and returns a one-time URL. Use this to send sensitive information to a user — they open the link once, read it, and it's gone. Useful for sharing generated passwords, private keys, or any sensitive output. IMPORTANT: Do NOT use this tool to request sensitive input from the user. To receive a secret from the user (e.g. a password or API key), ask them to create a note themselves at app.voltanotes.com, then share the URL with you — and call read_volta_note to retrieve it.",
 } as const;
 
 export async function execute(args: {
