@@ -18,6 +18,37 @@ Or in reverse — an agent can use `create_volta_note` to send credentials to a 
 
 ## Quick Start
 
+### Install
+
+```bash
+npm install -g @voltanotes/mcp
+```
+
+### Claude Code
+
+Find where the package was installed:
+
+```bash
+npm root -g
+```
+
+Then add to your MCP config (`~/.claude/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "volta": {
+      "command": "node",
+      "args": ["<npm-global-root>/@voltanotes/mcp/dist/index.js"]
+    }
+  }
+}
+```
+
+Replace `<npm-global-root>` with the output of `npm root -g` (e.g. `/usr/local/lib/node_modules` or `~/.npm-global/lib/node_modules`).
+
+If `node` isn't found, use the full path (run `which node` to find it).
+
 ### Claude Desktop
 
 Add to your `claude_desktop_config.json`:
@@ -33,13 +64,7 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
-### Claude Code
-
-```bash
-claude mcp add volta -- npx -y @voltanotes/mcp
-```
-
-> **PATH issue?** Claude Code runs with a minimal shell PATH that may not include the directory where `npx` is installed. If the server silently fails to connect, see [Troubleshooting](#troubleshooting) below.
+> **Note:** The `npx` method works well for Claude Desktop, which has full PATH access. For Claude Code, use the global install method above — see [Troubleshooting](#troubleshooting) for details.
 
 ## Tools
 
