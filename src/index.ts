@@ -19,6 +19,7 @@ import { dirname, join } from "node:path";
 
 import * as createNoteTool from "./tools/create-note.js";
 import * as readNoteTool from "./tools/read-note.js";
+import * as requestNoteTool from "./tools/request-note.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(readFileSync(join(__dirname, "..", "package.json"), "utf-8"));
@@ -106,6 +107,36 @@ server.tool(
           ].join("\n"),
         },
       ],
+    };
+  }
+);
+
+// --- request_volta_note ---------------------------------------------------
+
+server.tool(
+  requestNoteTool.definition.name,
+  requestNoteTool.definition.description,
+  {
+    context: z
+      .string()
+      .optional()
+      .describe(
+        "What's being requested, e.g. 'Anthropic API key'. " +
+          "Displayed to the user on the submission page for context."
+      ),
+  },
+  async ({ context }) => {
+    const result = await requestNoteTool.execute({ context });
+
+    if ("error" in result) {
+      return {
+        content: [{ type: "text" as const, text: result.error }],
+        isError: true,
+      };
+    }
+
+    return {
+      content: [{ type: "text" as const, text: result.content }],
     };
   }
 );
