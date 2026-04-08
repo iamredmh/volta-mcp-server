@@ -1,0 +1,8 @@
+startCommand:
+  type: stdio
+  configSchema: {}
+  commandFunction: |-
+    () => ({
+      command: "npx",
+      args: ["-y", "@voltanotes/mcp@latest"]
+    })
