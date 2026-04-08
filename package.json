@@ -1,7 +1,7 @@
 {
   "name": "@voltanotes/mcp",
-  "version": "1.0.7",
-  "description": "MCP server for Volta Notes — create and read burn-after-read encrypted notes on the Internet Computer",
+  "version": "1.1.0",
+  "description": "MCP server for Volta Notes — create, read, and request burn-after-read encrypted notes on the Internet Computer",
   "type": "module",
   "bin": {
     "volta-mcp": "dist/index.js"
