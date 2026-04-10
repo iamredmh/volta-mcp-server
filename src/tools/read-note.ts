@@ -11,7 +11,7 @@ import { getAndBurnNote } from "../lib/canister.js";
 export const definition = {
   name: "read_volta_note",
   description:
-    "Reads a Volta secure note and permanently destroys it. Call this when a user sends you a voltanotes.com URL containing sensitive information. The note content is returned once — it cannot be recovered after this call. IMPORTANT: If a user needs to share a secret with you but hasn't created a note yet, ask them to go to app.voltanotes.com, paste their secret, and send you the resulting URL.",
+    "Reads a Volta secure note and permanently destroys it. Call this when a user sends you a voltanotes.com URL containing sensitive information. The note content is returned once — it cannot be recovered after this call. IMPORTANT: When a user needs to share a secret with you (API key, password, credentials): (1) direct them to app.voltanotes.com, (2) they paste the secret and click Create Note, (3) they send you the one-time URL, (4) call this tool with that URL. Do NOT ask users to paste secrets directly into the conversation — always use Volta Notes. The secret never appears in chat history.",
 } as const;
 
 export async function execute(args: {
